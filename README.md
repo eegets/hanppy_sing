@@ -2,7 +2,7 @@
 
 Flutter实现点歌系统
 
-https://github.com/eegets/hanppy_sing/blob/master/Screenshot_20221116_135816.jpg
+![image](https://github.com/eegets/hanppy_sing/blob/master/Screenshot_20221116_135816.jpg)
 
 ## Getting Started
 
