@@ -9,34 +9,16 @@ import 'package:video_player/video_player.dart';
 
 import 'NameListGridPage.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+
+///使用`PageView`多页面切换组件
+class HomePageNavigationRail extends StatefulWidget {
+  const HomePageNavigationRail({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      // Remove the debug banner
-      debugShowCheckedModeBanner: false,
-      title: '大前端之旅',
-      home: const HomePage1(),
-      initialRoute: "/",
-      //名为"/"的路由作为应用的home(首页)
-      routes: {
-        "/adminPage": (context) => AdaminPage(), //后台首页
-        "/fullScreenVideo": (context) => FullScreenVideoPage(), //全屏播放
-      },
-    );
-  }
+  State<HomePageNavigationRail> createState() => _HomePage1State();
 }
 
-class HomePage1 extends StatefulWidget {
-  const HomePage1({Key? key}) : super(key: key);
-
-  @override
-  State<HomePage1> createState() => _HomePage1State();
-}
-
-class _HomePage1State extends State<HomePage1> {
+class _HomePage1State extends State<HomePageNavigationRail> {
   final List<Widget> _mainContents = [
     // Content for Home tab
     NameListGridPage(),
@@ -110,17 +92,17 @@ class _HomePage1State extends State<HomePage1> {
           children: FloatingButtons().getLeftContent(
               floatingButton,
               floatingButton,
-              (int index) => {
-                    if (0 == index)
-                      {
-                        OwnedPage.showModalBottomSheet1(context),
-                      }
-                    else if (1 == index)
-                      {}
-                    else if (2 == index)
-                      {},
-                    print("点击了ExpandableFab的下标为: $index"),
-                  })),
+                  (int index) => {
+                if (0 == index)
+                  {
+                    OwnedPage.showModalBottomSheet1(context),
+                  }
+                else if (1 == index)
+                  {}
+                else if (2 == index)
+                    {},
+                print("点击了ExpandableFab的下标为: $index"),
+              })),
       appBar: HomePageStatusBar1(
         height: 60,
         onTap: () {
@@ -133,22 +115,22 @@ class _HomePage1State extends State<HomePage1> {
       ),
       bottomNavigationBar: MediaQuery.of(context).size.width < 640
           ? BottomNavigationBar(
-              currentIndex: _selectedIndex,
-              unselectedItemColor: Colors.red,
-              selectedItemColor: Colors.indigoAccent,
-              // called when one tab is selected
-              onTap: (int index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
-              // bottom tab items，竖向屏幕的底部tab
-              items: const [
-                  BottomNavigationBarItem(icon: Icon(Icons.home), label: '歌名点歌'),
-                  BottomNavigationBarItem(icon: Icon(Icons.feed), label: '歌星点歌'),
-                  BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
-                  BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings')
-                ])
+          currentIndex: _selectedIndex,
+          unselectedItemColor: Colors.red,
+          selectedItemColor: Colors.indigoAccent,
+          // called when one tab is selected
+          onTap: (int index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          // bottom tab items，竖向屏幕的底部tab
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: '歌名点歌'),
+            BottomNavigationBarItem(icon: Icon(Icons.feed), label: '歌星点歌'),
+            BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
+            BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings')
+          ])
           : null,
       body: Row(
         mainAxisSize: MainAxisSize.max,
@@ -170,7 +152,7 @@ class _HomePage1State extends State<HomePage1> {
                   color: Colors.amber,
                 ),
                 leading: Column(
-                  children: const [ 
+                  children: const [
                     SizedBox(
                       height: 8,
                     ),
@@ -214,7 +196,7 @@ class _HomePage1State extends State<HomePage1> {
                       },
                       icon: Icon(
                           _controller.value.isPlaying ? Icons.pause : Icons.play_arrow)),
-                  ])
+                ])
             ),
 
           // Main content

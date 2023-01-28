@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:happy_sing/badge/BadgeUtils.dart';
-import 'package:happy_sing/event/EventBus.dart';
-import 'package:happy_sing/event/EventKey.dart';
 import 'dart:io';
 
 import '../../../db/database_provider.dart';
@@ -86,18 +84,6 @@ class _NameListItemPageState extends State<NameListItemPage> {
                         return InkWell(
                             onTap: () async {
                               clickItem(songData.data[index]);
-                              // print("点击列表 index: $index; data: ${songData.data[index]}");
-                              // final result = await showMenu(
-                              //     useRootNavigator: true,
-                              //     context: context,
-                              //     // position: RelativeRect.fromLTRB(100.0, 200.0, 100.0, 1000.0),
-                              //     position: RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 1.0),
-                              //     items: <PopupMenuItem<String>>[
-                              //       new PopupMenuItem<String>( value: 'value01', child: Container(child: Column(children: [new Text('Item One'),  new Text('Iteqweqwewqeqweqweqweqw22222m One'),  new Text('Item One'),  ],),)),
-                              //       new PopupMenuItem<String>( value: 'value02', child: new Text('Item Two')),
-                              //       new PopupMenuItem<String>( value: 'value03', child: new Text('Item Three')),
-                              //       new PopupMenuItem<String>( value: 'value04', child: new Text('I am Item Four'))
-                              //     ] );
                             },
                             child: Ink(
                               decoration: BoxDecoration(

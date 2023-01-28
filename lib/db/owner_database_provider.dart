@@ -1,6 +1,5 @@
 //now let make the db provider class
 
-import 'dart:ffi';
 
 import 'package:happy_sing/model/song_model.dart';
 import 'package:lpinyin/lpinyin.dart';

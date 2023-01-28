@@ -1,8 +1,11 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:happy_sing/model/song_model.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lpinyin/lpinyin.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_compress/video_compress.dart';
@@ -168,13 +171,48 @@ class _AddSongPageState extends State<AddSongPage> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            _dirList("mkv");
+            // _dirList("");
+            _aaa();
           },
           icon: Icon(Icons.search),
           label: Text("点击扫描文件夹歌曲"),
         ),
       ),
     );
+  }
+
+  /*
+   * 选择文件夹
+   */
+  _aaa() async {
+    debugPrint("selectedDirectory--->2222");
+    if (Platform.isMacOS) {
+      debugPrint("selectedDirectory---> files22222222");
+      const typeGroup = XTypeGroup(label: 'videos', extensions: ['mov', 'mp4']);  //只支持mp4
+      List<XFile> files = await openFiles(acceptedTypeGroups: [typeGroup]);
+      for (var element in files) {
+        saveDB(element.path);
+      }
+    } else {
+      debugPrint("selectedDirectory---> files");
+      FilePickerResult? filesResult = await FilePicker.platform.pickFiles(allowMultiple: true);
+      debugPrint("selectedDirectory---> files: ${filesResult?.paths}; fileSize: ${filesResult?.count}");
+      filesResult?.paths.forEach((element) {
+        if (element != null) {
+          debugPrint("selectedDirectory---> element: $element");
+          saveDB(element);
+        }
+      });
+    }
+    // else {
+    //   final picker = ImagePicker();
+    //   var pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+    //   print("AAAAAA pickedFile: ${pickedFile?.name}");
+    //   file = File(pickedFile!.path);
+    // if (file != null) {
+    //   saveDB(file.path);
+    // }
+    // }
   }
 
   /*
@@ -195,8 +233,8 @@ class _AddSongPageState extends State<AddSongPage> {
     Stream<FileSystemEntity> fileList = Directory(path).list(recursive: true);
 
     await for (FileSystemEntity fileSystemEntity in fileList) {
-      FileSystemEntityType type = FileSystemEntity.typeSync(fileSystemEntity
-          .path); //判断文件的类型：file：文件; directory：文件夹; link：链接文件; notFound：未知
+      FileSystemEntityType type = FileSystemEntity.typeSync(fileSystemEntity.path);
+      //判断文件的类型：file：文件; directory：文件夹; link：链接文件; notFound：未知
       if (type == FileSystemEntityType.file) {
         //是文件
         saveDB(fileSystemEntity.path);
@@ -220,6 +258,7 @@ class _AddSongPageState extends State<AddSongPage> {
     var songs = <SongModel>[];
     //通过 `VideoCompress.getMediaInfo()` 读取文件信息
     final info = await VideoCompress.getMediaInfo(filePath);
+    debugPrint("getVideoInfo info: ${info.duration}");
     //通过 `VideoCompress.getFileThumbnail()` 获取缩略图
     final thumbNail = await VideoCompress.getFileThumbnail(filePath);
 
@@ -228,22 +267,20 @@ class _AddSongPageState extends State<AddSongPage> {
     String songAuthor = fileSplit[1].split(".")[0];
 
     setState(() {
-      if (info != null) {
-        var videoInfo =
-            "duration: ${info.duration}; author: $songAuthor; file: ${info.file}; title:$songName; width: ${info.width}; thumbNail: $thumbNail}";
-        var songModel = SongModel(
-            fileSize: info.duration.toString(),
-            thumbNail: thumbNail.path,
-            author: songAuthor,
-            filePath: filePath,
-            english: PinyinHelper.getShortPinyin(songName),
-            title: songName,
-            width: info.width.toString(),
-            height: info.height.toString(),
-            creationDate: DateTime.now());
-        songs.add(songModel);
-        print("videoInfo-----: $videoInfo");
-      }
+      var videoInfo =
+          "duration: ${info.duration}; author: $songAuthor; file: ${info.file}; title:$songName; width: ${info.width}; thumbNail: $thumbNail}";
+      var songModel = SongModel(
+          fileSize: info.duration.toString(),
+          thumbNail: thumbNail.path,
+          author: songAuthor,
+          filePath: filePath,
+          english: PinyinHelper.getShortPinyin(songName),
+          title: songName,
+          width: info.width.toString(),
+          height: info.height.toString(),
+          creationDate: DateTime.now());
+      songs.add(songModel);
+      print("videoInfo-----: $videoInfo");
     });
     return songs;
   }
@@ -251,6 +288,7 @@ class _AddSongPageState extends State<AddSongPage> {
   //保存到数据库
   saveDB(String filePath) async {
     Future<List<SongModel>> songList = getVideoInfo(filePath);
+    debugPrint("saveDB filePath: $filePath");
     songList.then((value) => {
           for (var element in value) {DatabaseProvider.db.addSong(element)}
         });

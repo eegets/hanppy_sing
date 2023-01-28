@@ -42,7 +42,7 @@ class _HomePageStatusBarState1 extends State<HomePageStatusBar1> {
 
     return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
       Container(
-        padding: const EdgeInsets.only(right: 20),
+        padding: const EdgeInsets.only(top:30, right: 20),
         child: GestureDetector(
           onTap: widget.onTap,
           child: Column(
@@ -63,7 +63,7 @@ class _HomePageStatusBarState1 extends State<HomePageStatusBar1> {
         ),
       ),
       Container(
-        padding: const EdgeInsets.only(right: 20),
+        padding: const EdgeInsets.only(top:30, right: 20),
         child: GestureDetector(
           onTap: widget.onTap1,
           child: Column(

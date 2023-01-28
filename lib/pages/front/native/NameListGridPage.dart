@@ -16,7 +16,7 @@ class _NameListGridPageState extends State<NameListGridPage> {
     return MaterialApp(
       home: Scaffold(
           body: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
