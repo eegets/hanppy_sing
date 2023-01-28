@@ -1,6 +1,8 @@
 # happy_sing
 
-A new Flutter project.
+Flutter实现点歌系统
+
+![image](https://github.com/eegets/hanppy_sing/blob/master/Screenshot_20221116_135816.jpg)
 
 ## Getting Started
 
